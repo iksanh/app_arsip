@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Aplikasi Arsip Kanwil BPN Gorontalo</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Portal - Bootstrap 5 Admin Dashboard Template For Developers"
+    />
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media" />
+    <!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+
+    
+    
+
+    <!-- App CSS -->
+    <link
+      id="theme-style"
+      rel="stylesheet"
+      href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css'%}"
+    />
+    <link
+      id="theme-style"
+      rel="stylesheet"
+      href="{% static 'assets/css/portal.css'%}"
+    />
+    <link
+      id="theme-style"
+      rel="stylesheet"
+      href="{% static 'assets/plugins/bootstrap/css/dataTables.bootstrap5.min.css'%}"
+    />
+    <!-- <link
+      id="theme-style"
+      rel="stylesheet"
+      href="{% static 'assets/css/style.css'%}"
+      dataTables.bootstrap5.min
+    /> -->
+    <!-- jquery -->
+    <script src="{% static 'assets/plugins/jquery/js/jquery-3.7.0.js'%}"></script>
+    <script src="{% static 'assets/plugins/jquery/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/dataTables.bootstrap5.min.js'%}"></script>
+   <style>
+     
+    #alertmessage {
+      transition: opacity 1s;
+    }
+   </style>
+  </head>
+
+  <body class="app">
+   
+    {% include 'header.html' %}
+
+    <div class="app-wrapper">
+      <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl h-95 ">
+          
+          {% block content %}
+          
+          {% endblock content %}
+          
+        </div>
+      </div>
+        <!--//container-fluid-->  
+        {%if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success position-absolute bottom-0 end-0 me-4" role="alert" id="alertmessage" >
+            {{message}}
+          </div>  
+          {%endfor%}
+        {%endif%}
+        
+        
+    </div>
+      <!--//app-content-->
+
+      <footer class="app-footer">
+        <div class="container text-center py-3">
+          <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+          <small class="copyright"
+            >Designed with <span class="sr-only">love</span
+            ><i class="fas fa-heart" style="color: #fb866a"></i> by
+            <a
+              class="app-link"
+              href="http://themes.3rdwavemedia.com"
+              target="_blank"
+              >Xiaoying Riley</a
+            >
+            for developer</small
+          >
+        </div>
+      </footer>
+      <!--//app-footer-->
+      
+    </div>
+    <!--//app-wrapper-->
+
+
+    
+    <!-- Javascript -->
+    <script src="{% static 'assets/plugins/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js'%}"></script>
+    
+
+
+    <!-- FontAwesome JS-->
+    <script
+      defer
+      src="{% static 'assets/plugins/fontawesome/js/all.min.js' %}"
+    ></script>
+
+    <!-- Charts JS -->
+    <script src="{% static 'assets/plugins/chart.js/chart.min.js'%}"></script>
+    <!-- <script src="{% static 'assets/js/index-charts.js'%}"></script> -->
+
+    <!-- Page Specific JS -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    
+    <script>
+      
+        // FIXED CRISPY FORM BOOTSTRAP
+document.addEventListener("DOMContentLoaded", function () {
+  let labels = document.querySelectorAll("label");
+  let form_select  = document.querySelectorAll("select.form-control")
+  let select_form = document.querySelectorAll('.select')
+
+  select_form.forEach(select=> { select.classList.add('form-select')})
+
+
+
+  labels.forEach((label) =>
+    label.classList.add("form-label", "fw-normal", "mt-1")
+  );
+
+  form_select.forEach(select =>{
+    select.classList.remove('form-control')
+  })
+
+  // for allert 
+  const target = document.getElementById("alertmessage");
+  
+  target != null  &&  setInterval(() => target.style.opacity = '0', 3000)
+  
+
+  // For search 
+
+  var laporan_excel = document.getElementById('laporan_excel')
+  var laporan_pdf = document.getElementById('laporan_pdf')
+
+
+  laporan_excel.addEventListener("click", function(){
+    var currentUrl = window.location.href
+    var urlReport = currentUrl.replace('/master/arsip', '/master/arsip/report_excel')
+    // window.open(urlReport, '_blank');
+    window.location.href = urlReport
+  })
+
+  laporan_pdf.addEventListener("click", function(){
+    var currentUrl = window.location.href
+    var urlReport = currentUrl.replace('/master/arsip', '/master/arsip/report_pdf')
+    window.open(urlReport, '_blank');
+    // window.location.href = urlReport
+  })
+  
+
+  function submitForm(action){
+    var form = document.getElementById("form_arsip")
+    var url = window.location.href
+
+    if(action === 'pdf'){
+      console.log('pdf', url)
+    }else if(action ==='axcel'){
+      console.log('excel', url)
+    }
+  }
+  
+});
+
+
+ 
+    </script>
+    
+    
+  </body>
+</html>

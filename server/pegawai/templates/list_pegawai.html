@@ -1,0 +1,347 @@
+{% extends 'base.html' %} {% block content%}
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+  <div class="col-auto">
+    <h1 class="app-page-title mb-0">{{module}}</h1>
+  </div>
+
+  <div class="col-auto">
+    <div class="page-utilities">
+      <div
+        class="row g-2 justify-content-start justify-content-md-end align-items-center"
+      >
+        <div class="col-auto">
+          <a class="btn app-btn-secondary" href="{% url links.create %}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-plus"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            Tambah data
+          </a>
+        </div>
+        <div class="col-auto">
+          <button
+            class="btn app-btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              class="bi bi-upload me-2"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"
+              ></path>
+              <path
+                fill-rule="evenodd"
+                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"
+              ></path>
+            </svg>
+            Export Data
+          </button>
+        </div>
+      </div>
+      <!--//row-->
+    </div>
+    <!--//table-utilities-->
+  </div>
+  <!--//col-auto-->
+</div>
+
+<!--<p class="fw-bold fs-4 my-3 fw-light fw-bolder">SIMPANAN</p>-->
+<div id="searchPegawai"></div>
+<div class="app-card app-card-orders-table shadow-sm mb-5">
+  <div class="app-card-body p-4">
+    <div class="mb-4">
+      <!--//app-card-body-->
+    </div>
+
+    <!--//inner-->
+
+    <button class="btn btn-danger mb-2 text-white" id="delete-selected">
+      Delete
+    </button>
+    <div class="table-responsive">
+      <table class="table" id="table-pegawai">
+        <thead>
+          <tr>
+            <th scope="cell">NO</th>
+            <th scope="cell">
+              <input type="checkbox" id="seleted-all-pegawai" />
+            </th>
+            <th scope="cell">IDENTITAS</th>
+            <th scope="cell">NAMA</th>
+            <th scope="cell">STATUS</th>
+            <th scope="cell">UNIT KERJA</th>
+            <th scope="cell">SUB UNIT KERJA</th>
+            <th scope="cell">PENGELOLA</th>
+
+            <th scope="cell">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in data %}
+          <tr>
+            <td scope="row">{{forloop.counter}}</td>
+            <td>
+              <input
+                type="checkbox"
+                class="delete-checkbox"
+                value="{{ d.id }}"
+              />
+            </td>
+            <td>{{d.identitas}}</td>
+            <td>{{d.nama}}</td>
+            <td>{{d.status.status}}</td>
+            <td>{{d.unit_kerja.name}}</td>
+            <td>{{d.sub_unit_kerja.name}}</td>
+            <td>
+              {% if d.user_profile is None %} Tidak {% else %} Ya {% endif %}
+            </td>
+
+            <td class="align-middle" style="width: 90px">
+              <div class="d-flex justify-content-evenly">
+                {% if d.user_profile is None%}
+                <a
+                  href="{% url 'create-pegawai-user' d.id %}"
+                  class=""
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Jadikan Pengelola Arsip"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#118ab2"
+                    class="bi bi-person-plus"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"
+                    />
+                  </svg>
+                </a>
+                {% endif %}
+                <a
+                  href="{% url links.edit d.id %}"
+                  class=""
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Edit Data"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-pencil"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="{% url links.delete d.id %}"
+                  class=""
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Hapus Data"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#ec776c"
+                    class="bi bi-trash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"
+                    />
+                    <path
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Export DAta -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Export Data Pegawai</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          action="{% url 'import-pegawai' %}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Pilih Status Pegawai</label
+            >
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              name="status_pegawai"
+              required
+            >
+              <option selected value="status">PILIH STATUS PEGAWAI</option>
+              {% for status in parameter.status_pegawai%}
+              <option value="{{status.id}}">
+                {{status.status}} ({{status.keterangan}})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Pilih Unit Kerja</label
+            >
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              name="unit_kerja"
+              required
+            >
+              <option selected value="status">PILIH UNIT KERJA</option>
+              {% for uk in parameter.unit_kerja%}
+              <option value="{{uk.id}}">{{uk.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Pilih File</label>
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              name="file_pegawai"
+            />
+            <a
+              href="{% url 'template-csv-pegawai' %}"
+              class="mt-2"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Hapus Data"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-filetype-csv"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823q.195.162.478.252.284.091.665.091.507 0 .859-.158.354-.158.539-.44.187-.284.187-.656 0-.336-.134-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.566-.21l-.621-.144a1 1 0 0 1-.404-.176.37.37 0 0 1-.144-.299q0-.234.185-.384.188-.152.512-.152.214 0 .37.068a.6.6 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.2-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.439 0-.776.15-.337.149-.527.421-.19.273-.19.639 0 .302.122.524.124.223.352.367.228.143.539.213l.618.144q.31.073.463.193a.39.39 0 0 1 .152.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.167.07-.413.07-.175 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zM.806 13.693q0-.373.102-.633a.87.87 0 0 1 .302-.399.8.8 0 0 1 .475-.137q.225 0 .398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.4 1.4 0 0 0-.489-.272 1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223-.375.222-.572.632-.195.41-.196.979v.498q0 .568.193.976.197.407.572.626.375.217.914.217.439 0 .785-.164t.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.8.8 0 0 1-.118.363.7.7 0 0 1-.272.25.9.9 0 0 1-.401.087.85.85 0 0 1-.478-.132.83.83 0 0 1-.299-.392 1.7 1.7 0 0 1-.102-.627zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879z"
+                />
+              </svg>
+              Download Tempalte
+            </a>
+          </div>
+
+          <button type="submit" class="btn app-btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const table = new DataTable("#table-pegawai");
+  const buttonDelete = document.getElementById("delete-selected");
+  const buttonSelectedAll = document.getElementById("seleted-all-pegawai");
+
+  // Button delete select all
+  buttonSelectedAll.addEventListener("change", function () {
+    let dataPegawai = document.querySelectorAll(".delete-checkbox");
+
+    if (this.checked) {
+      console.log(dataPegawai);
+      dataPegawai.forEach(function (checkbox) {
+        checkbox.checked = true;
+      });
+    } else {
+      dataPegawai.forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+    }
+  });
+
+  // Button delete event
+  buttonDelete.addEventListener("click", function () {
+    let selectedId = [];
+    let dataSelected = document.querySelectorAll(".delete-checkbox:checked");
+
+    dataSelected.forEach(function (data) {
+      selectedId.push(data.value);
+    });
+
+    if (selectedId.length > 0) {
+      var data = JSON.stringify({ selectedIds: selectedId });
+      console.log(data);
+      fetch("{% url 'delete-selected-pegawai' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selected_ids: selectedId }),
+      })
+        .then(function (response) {
+          if (response.ok) {
+            location.reload();
+          } else {
+            throw new Error("Error Menghapus Data");
+          }
+        })
+        .catch(function (error) {
+          alert(error.message);
+        });
+    }
+  });
+</script>
+{% endblock content%}

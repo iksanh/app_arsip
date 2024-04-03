@@ -1,0 +1,414 @@
+{% load static %}
+<div id="app-sidepanel" class="app-sidepanel">
+  <div id="sidepanel-drop" class="sidepanel-drop"></div>
+  <div class="sidepanel-inner d-flex flex-column">
+    <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none"
+      >&times;</a
+    >
+    <div class="app-branding">
+      <a
+        class="app-logo d-flex flex-column justify-content-center align-items-center"
+        href="index.html"
+        ><img
+          class="logo-icon me-2"
+          src="{%static 'assets/images/logo.png' %}"
+          alt="logo"
+          style="width: 50px; height: 50px"
+        /><span class="logo-text">E-ARSIP</span></a
+      >
+    </div>
+    <!--//app-branding-->
+
+    <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1 mt-4">
+      <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+        <li class="nav-item">
+          <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+          <a
+            class="nav-link {% if home %} active {% endif %}"
+            href="{% url 'home' %}"
+          >
+            <span class="nav-icon">
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-house-door"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                />
+              </svg>
+            </span>
+            <span class="nav-link-text">DASHBOARD</span> </a
+          ><!--//nav-link-->
+        </li>
+        <!--//nav-item-->
+        <li class="nav-item">
+          <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+          <a class="nav-link" href="{% url 'list-arsip' %}">
+            <span class="nav-icon">
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-folder"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
+                />
+              </svg>
+            </span>
+            <span class="nav-link-text">ARSIP</span> </a
+          ><!--//nav-link-->
+        </li>
+        <!--//nav-item-->
+        <li class="nav-item">
+          <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+          <a class="nav-link" href="{% url 'list-sirkulasi'%}">
+            <span class="nav-icon">
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-card-list"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"
+                />
+                <circle cx="3.5" cy="5.5" r=".5" />
+                <circle cx="3.5" cy="8" r=".5" />
+                <circle cx="3.5" cy="10.5" r=".5" />
+              </svg>
+            </span>
+            <span class="nav-link-text">SIRKULASI ARSIP</span> </a
+          ><!--//nav-link-->
+        </li>
+        <!--//nav-item-->
+        <li class="nav-item has-submenu">
+          <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+
+          <a
+            class="nav-link submenu-toggle {% if parameter.data_master%}active {%endif%}"
+            href="#"
+            data-bs-toggle="collapse"
+            data-bs-target="#submenu-1"
+            aria-expanded="{%if parameter.data_master%}true{% else %}false{% endif %}"
+            aria-controls="submenu-1"
+          >
+            <span class="nav-icon">
+              <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-database"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313ZM13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A4.92 4.92 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A4.92 4.92 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525"
+                />
+              </svg>
+            </span>
+            <span class="nav-link-text">DATA MASTER</span>
+            <span class="submenu-arrow">
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-chevron-down"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                />
+              </svg> </span
+            ><!--//submenu-arrow--> </a
+          ><!--//nav-link-->
+          <div
+            id="submenu-1"
+            class="collapse submenu submenu-1 {%if parameter.data_master %}show {% endif %}"
+            data-bs-parent="#menu-accordion"
+          >
+            <ul class="submenu-list list-unstyled">
+              <!-- permission for unit kerja  -->
+              {% if perms.unit_kerja.view_unitkerjamodel or user.super_user %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {%if parameter.unit_kerja %}active {% endif %}"
+                  href="{% url 'list-unit-kerja' %}"
+                  >unit kerja</a
+                >
+              </li>
+              {% endif %}
+              <!-- end permission for unit kerja  -->
+
+              <!-- permission for sub unit kerja  -->
+              {%if perms.unit_kerja.view_subunitkerjamodel or user.super_user %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.subunit_kerja %} active {% endif %}"
+                  href="{% url 'list-subunit-kerja'%}"
+                  >Sub Unit Kerja</a
+                >
+              </li>
+              {% endif %}
+              <!-- end permission for unit kerja  -->
+              {%if perms.lokasi.view_lokasimodel or user.super_user %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.lokasi %} active {% endif %}"
+                  href="{% url 'list-lokasi'%}"
+                  >Lokasi Arsip</a
+                >
+              </li>
+              {%endif%}
+              <!-- permission for tempat arsip  -->
+              {%if perms.lokasi.view_tempatmodel or user.super_user%}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.tempat %} active {% endif %}"
+                  href="{% url 'list-tempat'%}"
+                  >Tempat Arsip</a
+                >
+              </li>
+              {%endif%}
+              <!-- end permsisson for tempat arsip  -->
+              <!-- permission for Media  -->
+              {%if perms.media.view_mediamodel or user.super_user %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.media %} active {% endif %}"
+                  href="{% url 'list-media'%}"
+                  >Media</a
+                >
+              </li>
+              {% endif %}
+              <!-- end permission for Media -->
+
+              <!-- permssion for klasifikasi arsip  -->
+              {%if perms.klasifikasi.view_klasifikasimodel or user.super_user %}
+              <!-- end -->
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.klasifikasi %} active {% endif %}"
+                  href="{% url 'list-klasifikasi'%}"
+                  >Klasifikasi Arsip</a
+                >
+              </li>
+              {% endif %}
+              <!-- end permission for klasifikasi arsip   -->
+              <!-- permssion for klasifikasi arsip  -->
+              {%if perms.dokumen.view_dokumenmodel or user.super_user %}
+              <!-- end -->
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.dokumen %} active {% endif %}"
+                  href="{% url 'list-dokumen'%}"
+                  >Dokumen</a
+                >
+              </li>
+              {% endif %}
+              <!-- end permission for klasifikasi arsip   -->
+            </ul>
+          </div>
+        </li>
+        <!--//nav-item-->
+        {% if user.is_superuser %}
+        <li class="nav-item has-submenu">
+          <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+
+          <a
+            class="nav-link submenu-toggle {% if parameter.data_pegawai%}active {%endif%}"
+            href="#"
+            data-bs-toggle="collapse"
+            data-bs-target="#submenu-2"
+            aria-expanded="{%if parameter.data_pegawai%}true{% else %}false{% endif %}"
+            aria-controls="submenu-2"
+          >
+            <span class="nav-icon">
+              <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-person-lines-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"
+                />
+              </svg>
+            </span>
+            <span class="nav-link-text">Pegawai</span>
+            <span class="submenu-arrow">
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-chevron-down"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                />
+              </svg> </span
+            ><!--//submenu-arrow--> </a
+          ><!--//nav-link-->
+          <div
+            id="submenu-2"
+            class="collapse submenu submenu-2 {%if parameter.data_pegawai %}show {% endif %}"
+            data-bs-parent="#menu-accordion"
+          >
+            <ul class="submenu-list list-unstyled">
+              {%if perms.unit_kerja.view_unitkerjamodel or user.is_superuser %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.status_pegawaii %} active {% endif %}"
+                  href="{% url 'list-status-pegawai' %}"
+                  >Status Pegawai</a
+                >
+              </li>
+              {% endif %}
+              <!-- Menu for Pangkat Golongan Pegawai -->
+              {%if perms.unit_kerja.view_unitkerjamodel or user.is_superuser %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.pangkat_golongan %} active {% endif %}"
+                  href="{% url 'list-pangkat_golongan' %}"
+                  >Pangkat Golongan</a
+                >
+              </li>
+              {% endif %}
+              <!-- end Menu for Pangkat Golongan Pegawai  -->
+              <!-- Menu For Pegawai -->
+              {%if perms.pegawai.view_pegawaimodel or user.is_superuser %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.pegawai %} active {% endif %}"
+                  href="{% url 'list-pegawai' %}"
+                  >Pegawai</a
+                >
+              </li>
+              {% endif %}
+              <!-- menu for user  -->
+              {%if perms.user.view_user or user.is_superuser %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.user %} active {% endif %}"
+                  href="{% url 'list-user' %}"
+                  >User</a
+                >
+              </li>
+              {% endif %}
+              <!-- menu for group  -->
+              {%if perms.group.view_group or user.is_superuser %}
+              <li class="submenu-item">
+                <a
+                  class="submenu-link {% if parameter.group %} active {% endif %}"
+                  href="{% url 'list-group' %}"
+                  >Group</a
+                >
+              </li>
+              {% endif %}
+              <!-- endi if  -->
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        <!--//nav-item-->
+      </ul>
+      <!--//app-menu-->
+    </nav>
+    <!--//app-nav-->
+    <div class="app-sidepanel-footer">
+      <nav class="app-nav app-nav-footer">
+        <ul class="app-menu footer-menu list-unstyled">
+          <li class="nav-item">
+            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+            <a class="nav-link" href="settings.html">
+              <span class="nav-icon">
+                <svg
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-gear"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"
+                  />
+                </svg>
+              </span>
+              <span class="nav-link-text">Settings</span> </a
+            ><!--//nav-link-->
+          </li>
+          <!--//nav-item-->
+
+          <!--//nav-item-->
+          <li class="nav-item">
+            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+            <a class="nav-link" href="{% url 'logout' %}">
+              <span class="nav-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-box-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"
+                  />
+                </svg>
+              </span>
+              <span class="nav-link-text">Logout</span> </a
+            ><!--//nav-link-->
+          </li>
+          <!--//nav-item-->
+        </ul>
+        <!--//footer-menu-->
+      </nav>
+    </div>
+    <!--//app-sidepanel-footer-->
+  </div>
+  <!--//sidepanel-inner-->
+</div>
+<!--//app-sidepanel-->

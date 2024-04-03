@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Report</title>
+  </head>
+  <body>
+    <h1>Report</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Column 1</th>
+          <th>Column 2</th>
+          <!-- Add more columns as needed -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in report_data %}
+        <tr>
+          <td>{{ item.no_arsip }}</td>
+          <td>{{ item.pencipta.name }}</td>
+          <!-- Add more columns as needed -->
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

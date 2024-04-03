@@ -1,0 +1,103 @@
+{% extends 'base.html' %} {% block content%}
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+  <div class="col-auto">
+    <h1 class="app-page-title mb-0">{{module}}</h1>
+  </div>
+  <div class="col-auto">
+    <div class="page-utilities">
+      <div
+        class="row g-2 justify-content-start justify-content-md-end align-items-center"
+      >
+        <div class="col-auto">
+          <a class="btn app-btn-secondary" href="{% url links.create %}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-plus"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            Tambah data
+          </a>
+        </div>
+      </div>
+      <!--//row-->
+    </div>
+    <!--//table-utilities-->
+  </div>
+  <!--//col-auto-->
+</div>
+<!--<p class="fw-bold fs-4 my-3 fw-light fw-bolder">SIMPANAN</p>-->
+<div class="app-card app-card-orders-table shadow-sm mb-5">
+  <div class="app-card-body">
+    <div class="table-responsive p-4">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">kode Dokumen</th>
+            <th scope="col">Nama Dokumen</th>
+
+            <th scope="col" style="width: 100px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if data %} {% for d in data %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{d.kode}}</td>
+            <td>{{d.nama}}</td>
+
+            <td scope="row">
+              <div class="align-items-center">
+                <a href="{% url links.edit d.id %}" class="p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-pencil"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                    />
+                  </svg>
+                </a>
+                <a href="{% url links.delete d.id %}" class="p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#ec776c"
+                    class="bi bi-trash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"
+                    />
+                    <path
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %} {%else %}
+          <tr>
+            <td colspan="4" class="text-center">data not exist</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content%}
