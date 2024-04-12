@@ -154,20 +154,25 @@ document.addEventListener("DOMContentLoaded", function () {
   var laporan_excel = document.getElementById('laporan_excel')
   var laporan_pdf = document.getElementById('laporan_pdf')
 
-
-  laporan_excel.addEventListener("click", function(){
+  if(laporan_excel) {
+    laporan_excel.addEventListener("click", function(){
     var currentUrl = window.location.href
     var urlReport = currentUrl.replace('/master/arsip', '/master/arsip/report_excel')
     // window.open(urlReport, '_blank');
     window.location.href = urlReport
   })
 
+  }
+
+if(laporan_pdf)  {
   laporan_pdf.addEventListener("click", function(){
     var currentUrl = window.location.href
     var urlReport = currentUrl.replace('/master/arsip', '/master/arsip/report_pdf')
     window.open(urlReport, '_blank');
     // window.location.href = urlReport
   })
+  
+}
   
 
   function submitForm(action){

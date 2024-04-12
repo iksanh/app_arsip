@@ -2,7 +2,7 @@ from datetime import  date
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
-from klasifikasi.models import KlasifikasiModel
+
 
 # Create your models here.
 

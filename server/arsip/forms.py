@@ -1,19 +1,24 @@
 from django import forms
 from .models import ArsipModel
+from lokasi.models import LokasiModel, TempatModel
 from klasifikasi.models import KlasifikasiModel
 from pegawai.models import PegawaiModel
 
 from django_select2.forms import Select2Widget
-KETERANGAN_CHOICE = [('', 'PILIH KETARANGAN'),('SURAT MASUK', 'SURAT MASUK'), ('SURAT KELUAR', 'SURAT KELUAR'), ('LAINNYA', 'LAINNNYA')]
+KETERANGAN_CHOICE = [('', 'PILIH KETARANGAN'),('SURAT MASUK', 'SURAT MASUK'), ('SURAT KELUAR', 'SURAT KELUAR'), ('LAINNYA', 'LAINNYA')]
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class ArsipForm(forms.ModelForm):
   
-  
+  lokasi = forms.ModelChoiceField(queryset=LokasiModel.objects.all())
+  tempat = forms.ModelChoiceField(queryset=TempatModel.objects.all())
   
   class Meta:
     model = ArsipModel
     exclude = ['created_by', 'created_at', 'updated_by','update_at']
-    
+   
   
 
 
@@ -24,7 +29,7 @@ class ArsipForm(forms.ModelForm):
     
     
         # Set initial value for tanggal_dokumen field
-    self.fields['tanggal_dokumen'].initial = kwargs.get('instance', None).tanggal_dokumen if kwargs.get('instance') else None
+    
 
     if user and not user.is_superuser:
        pegawai = PegawaiModel.objects.filter(user_profile = user).first()
@@ -39,6 +44,7 @@ class ArsipForm(forms.ModelForm):
 
     self.fields['uraian'].widget.attrs.update({'style': 'height : 100px'})
     self.fields['tanggal_dokumen'].widget = forms.DateInput(attrs={'type': 'date'})
+    self.fields['tanggal_terima'].widget = forms.DateInput(attrs={'type': 'date'})
     self.fields['keterangan'].widget = forms.Select(choices=KETERANGAN_CHOICE)
     
  

@@ -12,7 +12,7 @@ class UnitKerjaForm(forms.ModelForm):
 class SubUnitKerjaForm(forms.ModelForm):
   class Meta:
     model = SubUnitKerjaModel
-    fields =  ['name','unit_kerja']
+    fields =  ['unit_kerja','name']
 
   def __init__(self, *args, **kwargs):
     super(SubUnitKerjaForm, self).__init__(*args, **kwargs)

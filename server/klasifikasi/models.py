@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.db import connection
 from django.contrib import admin
+from unit_kerja.models import  SubUnitKerjaModel, UnitKerjaModel
 
 # Model for Klasifikasi Arsip.
 
@@ -20,6 +21,8 @@ class KlasifikasiModel(models.Model):
     kode_klasifikasi = models.CharField(max_length=50)
     jenis_arsip = models.CharField(max_length=100, default="")
     keterangan = models.TextField(null=True)
+    unit_kerja = models.ForeignKey(UnitKerjaModel, on_delete=models.SET_NULL, null=True)
+    sub_unit_kerja = models.ForeignKey(SubUnitKerjaModel, on_delete=models.SET_NULL, null=True)
     waktu_aktif = models.IntegerField(null=True)
     waktu_inaktif = models.IntegerField(null=True)
     nasib_akhir = models.CharField(max_length=100, choices=NASIB_AKHIR_OPTION, default='Musnah')

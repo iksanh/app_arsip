@@ -1,6 +1,6 @@
 import functools
 from typing import Any
-from datetime import datetime
+from datetime import datetime, date
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, FileResponse
@@ -19,13 +19,21 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle,  Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
+import re
+import csv
+
 
 from django.views.generic import DetailView
 
-from .models import ArsipModel
+from .models import ArsipModel, User
+from dokumen.models import DokumenModel
+from media.models import MediaModel
+from unit_kerja.models import SubUnitKerjaModel, UnitKerjaModel
+
 from .forms import ArsipForm
 from klasifikasi.models import KlasifikasiModel
 from utils.crud_params import CrudParams
+from utils.get_regex import get_kode_dokumen, get_kode_klasifikasi, get_pengelola
 
 # Create your views here.
 
@@ -492,3 +500,74 @@ def generate_pdf_report_view(request):
     # Create HTTP response with PDF content
     response = HttpResponse(pdf_content, content_type='application/pdf')
     return response
+
+
+# def upload_csv(request):
+    
+#     if request.method == 'POST' and request.FILES['csv_file']:
+#         csv_file = request.FILES['csv_file']
+#         decoded_file=csv_file.read().decode('utf-8').splitlines()
+#         csv_reader = csv.DictReader(decoded_file)
+        
+
+#         for row in csv_reader:
+#           nomor_surat_input = row['nomor_surat']
+#           jenis_dokumen_input = DokumenModel.objects.get(kode = get_kode_dokumen(nomor_surat_input))
+#           kode_klasifikasi_input  = KlasifikasiModel.objects.get(kode_klasifikasi=get_kode_klasifikasi(nomor_surat_input)) 
+#           pencipta_input = UnitKerjaModel.objects.get(arsip = get_kode_klasifikasi(nomor_surat_input)[:2] if get_kode_klasifikasi(nomor_surat_input) else None )
+#           pengelola_input = UnitKerjaModel.objects.get(arsip = 'UP')
+#           tanggal_dokumen_input = datetime.strptime(row['tanggal_buat'], "%d/%m/%Y").strftime("%Y-%m-%d") 
+#           uraian_input = row['uraian']
+#           keterangan_input  = "SURAT KELUAR" if get_kode_dokumen(nomor_surat_input) == 'SD' else 'LAINNYA'
+#           media_input  = MediaModel.objects.get(name=row['media'])
+#           created_by_input = User.objects.get(id=1)
+#           created_at_input = date.today()
+#           updated_by_input = created_by_input
+#           updated_at_input = created_at_input
+          
+#           # print(get_kode_klasifikasi(nomor_surat_input)[:2] if get_kode_klasifikasi(nomor_surat_input) else None, row['no'] )
+#           print(row['no'])
+#           ArsipModel.objects.create(no_arsip = nomor_surat_input, jenis_dokumen = jenis_dokumen_input, pencipta = pencipta_input, kode_klasifikasi = kode_klasifikasi_input, pengelola = pengelola_input, tanggal_dokumen = tanggal_dokumen_input, uraian = uraian_input, keterangan = keterangan_input, media = media_input, created_at = created_at_input, created_by = created_by_input, update_at = updated_at_input, updated_by = updated_by_input )
+
+
+          
+          
+          # print(nomor_surat_input,tanggal_dokumen, kode_dokumen, pencipta, pengelola, keterangan, media, DokumenModel.objects.filter(kode=kode_dokumen), KlasifikasiModel.objects.filter(kode_klasifikasi=kode_klasifikasi))
+          # print(perihal)      
+
+    # return render(request, 'upload.html')
+def upload_csv(request):
+    if request.method == 'POST' and request.FILES['csv_file']:
+        csv_file = request.FILES['csv_file']
+        decoded_file = csv_file.read().decode('utf-8').splitlines()
+        csv_reader = csv.DictReader(decoded_file)
+
+        for row in csv_reader:
+            try:
+                nomor_surat_input = row['nomor_surat']
+                jenis_dokumen_input = DokumenModel.objects.get(kode=get_kode_dokumen(nomor_surat_input))
+                kode_klasifikasi_input = KlasifikasiModel.objects.get(kode_klasifikasi=get_kode_klasifikasi(nomor_surat_input))
+                pencipta_input = UnitKerjaModel.objects.get(arsip=get_kode_klasifikasi(nomor_surat_input)[:2] if get_kode_klasifikasi(nomor_surat_input) else None)
+                pengelola_input = UnitKerjaModel.objects.get(arsip='UP')
+                tanggal_dokumen_input = datetime.strptime(row['tanggal_buat'], "%d/%m/%Y").strftime("%Y-%m-%d")
+                uraian_input = row['uraian']
+                keterangan_input = "SURAT KELUAR" if get_kode_dokumen(nomor_surat_input) == 'SD' else 'LAINNYA'
+                media_input = MediaModel.objects.get(name=row['media'])
+                created_by_input = User.objects.get(id=1)
+                created_at_input = date.today()
+                updated_by_input = created_by_input
+                updated_at_input = created_at_input
+
+                ArsipModel.objects.create(no_arsip=nomor_surat_input, jenis_dokumen=jenis_dokumen_input,
+                                           pencipta=pencipta_input, kode_klasifikasi=kode_klasifikasi_input,
+                                           pengelola=pengelola_input, tanggal_dokumen=tanggal_dokumen_input,
+                                           uraian=uraian_input, keterangan=keterangan_input, media=media_input,
+                                           created_at=created_at_input, created_by=created_by_input,
+                                           update_at=updated_at_input, updated_by=updated_by_input)
+            except Exception as e:
+                print(f"Error processing row: {row}")
+                print(f"Error message: {str(e)}")
+                # You can choose to log the error or perform any other desired action
+                continue
+            
+    return render(request, 'upload.html')

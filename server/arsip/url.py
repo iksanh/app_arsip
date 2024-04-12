@@ -1,6 +1,6 @@
 from django.urls import path
 from wkhtmltopdf.views import PDFTemplateView
-from .views import ArsipListView, ArsipCreate, ArsipUpdate, arsip_delete, arsip_report_excel, generate_pdf_report, generate_pdf_report_view
+from .views import ArsipListView, ArsipCreate, ArsipUpdate, arsip_delete, arsip_report_excel, generate_pdf_report, generate_pdf_report_view, upload_csv
 
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
   
   path('pdf/', generate_pdf_report, name='arsip-report-pdf'),
   path('report_pdf/', generate_pdf_report_view, name='arsip-report-pdf'),
+   path('upload/', upload_csv, name='upload_csv'),
  
 
 

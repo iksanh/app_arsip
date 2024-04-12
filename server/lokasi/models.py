@@ -26,3 +26,16 @@ class TempatModel(models.Model):
     
     class Meta:
         db_table = 'model_tempat'
+
+class BoxModel(models.Model):
+    nama  = models.CharField(max_length=100)
+    tempat = models.ForeignKey(TempatModel, null=True, on_delete=models.CASCADE)
+
+
+    def __str__(self) -> str:
+        return f'{self.nama}'
+    
+    class Meta : 
+        db_table = 'model_box_ordner'
+
+

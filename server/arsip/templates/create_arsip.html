@@ -45,15 +45,15 @@
   <div class="col-12 col-md-12">
     <div class="app-card app-card-settings shadow-sm p-4">
       <div class="app-card-body">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" novalidate>
           {% csrf_token %}
           <div class="row">
             <div class="d-inline p-2 m-2 bg-secondary text-white col-12">
               IDENTITAS ARSIP
             </div>
           </div>
-
-          <div class="row g-3">
+          {{form|crispy }}
+          <!-- <div class="row g-3">
             <div class="col-md-4">{{form.no_arsip|as_crispy_field}}</div>
             <div class="col-md-4">{{form.jenis_dokumen|as_crispy_field}}</div>
             <div class="col-md-4">
@@ -75,7 +75,7 @@
             <div class="col-md-4">{{form.tempat|as_crispy_field}}</div>
             <div class="col-md-6">{{form.nomor_box|as_crispy_field}}</div>
             <div class="col-md-6">{{form.file|as_crispy_field}}</div>
-          </div>
+          </div> -->
 
           <button type="submit" class="btn app-btn-primary mt-3">Simpan</button>
         </form>
@@ -88,5 +88,24 @@
 
 <!-- end content  -->
 <!-- java script kode  -->
+<script>
+  // Select all input elements with type "date"
+  var dateInputs = document.querySelectorAll('input[type="date"]');
+
+  // Change the format of each date value
+  dateInputs.forEach(function (input) {
+    // Get the current value of the input
+    var currentValue = input.value;
+
+    // Split the current value by "-"
+    var parts = currentValue.split("-");
+
+    // Rearrange the parts in the new format "yyyy-MM-dd"
+    var newValue = parts[2] + "-" + parts[1] + "-" + parts[0];
+
+    // Set the new value to the input
+    input.value = newValue;
+  });
+</script>
 
 {% endblock content%}

@@ -203,8 +203,9 @@
             <td>{{d.tempat.nama}}</td>
 
             <td class="d-flex p-2 gap-3">
+              {% if file_url %}
               <a href="{{d.file.url}}" target="_blank">Lihat File</a>
-
+              {% endif %}
               <a href="{% url links.edit d.id %}" class="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

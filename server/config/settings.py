@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap4",
     "django_select2",
+    "bootstrap_datepicker_plus",
     #FOR REPORT PDF
     "wkhtmltopdf",
     #CORS
@@ -166,6 +167,8 @@ LANGUAGE_CODE = 'id'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
+DATE_FORMAT = 'YYYY-MM-DD'
 
 USE_TZ = True
 
