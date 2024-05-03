@@ -12,8 +12,8 @@ class DateInput(forms.DateInput):
 
 class ArsipForm(forms.ModelForm):
   
-  lokasi = forms.ModelChoiceField(queryset=LokasiModel.objects.all())
-  tempat = forms.ModelChoiceField(queryset=TempatModel.objects.all())
+  lokasi = forms.ModelChoiceField(queryset=LokasiModel.objects.all(), required=False)
+  tempat = forms.ModelChoiceField(queryset=TempatModel.objects.all(), required=False)
   
   class Meta:
     model = ArsipModel
@@ -43,8 +43,8 @@ class ArsipForm(forms.ModelForm):
        
 
     self.fields['uraian'].widget.attrs.update({'style': 'height : 100px'})
-    self.fields['tanggal_dokumen'].widget = forms.DateInput(attrs={'type': 'date'})
-    self.fields['tanggal_terima'].widget = forms.DateInput(attrs={'type': 'date'})
+    # self.fields['tanggal_dokumen'].widget = forms.DateInput(attrs={'type': 'date'})
+    # self.fields['tanggal_terima'].widget = forms.DateInput(attrs={'type': 'date'})
     self.fields['keterangan'].widget = forms.Select(choices=KETERANGAN_CHOICE)
     
  

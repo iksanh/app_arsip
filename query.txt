@@ -1,0 +1,9 @@
+query untuk laporan 
+SELECT model_dokumen.nama, jenis_dokumen_id, pengelola_id, COUNT(*) AS document_count
+FROM arsip_arsipmodel JOIN model_dokumen WHERE arsip_arsipmodel.jenis_dokumen_id =  model_dokumen.id
+GROUP BY jenis_dokumen_id, pengelola_id
+
+query untuk jumlah arsip
+SELECT keterangan, COUNT(*) AS document_count
+FROM arsip_arsipmodel 
+GROUP BY keterangan

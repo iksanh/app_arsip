@@ -60,6 +60,7 @@ urlpatterns = [
     path('api/unitkerja/', include('unit_kerja.api.url')),
     path('api/klasifikasi/', include('klasifikasi.api.url')),
     path('api/arsip/', include('arsip.api.url')),
+    path('api/dokumen/', include('dokumen.api.url')),
 
     #FOR MONOLITH URL
 
@@ -77,6 +78,7 @@ urlpatterns = [
     path('master/group/', include('group.url')),
     path('master/dokumen/', include('dokumen.url')),
     path('master/pangkat_golongan/', include('pangkat_golongan.url')),
+    path('report/', include('report.url')),
     path('view_pdf/', view_pdf, name='pdf_view'),
 
     #security

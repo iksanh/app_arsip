@@ -1,7 +1,10 @@
+from django.db import connection
+from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
+from django.core.paginator import Paginator
 from .serializers import (ArsipSerializer, ArsipModel, ArsipSerializerList)
 
 
@@ -13,12 +16,13 @@ class ArsipListApi(APIView):
 
     def get(self, request,format=None):
         paginator = PageNumberPagination()
-        paginator.page_size = 10
+        paginator.page_size = request.GET.get('page_size', 10)
         queryset = ArsipModel.objects.all()
         result_page = paginator.paginate_queryset(queryset,request)
         serializer = ArsipSerializerList(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
-        pass
+    
+        
 
     def post(self, request,format=None):
         serializer = ArsipSerializer(data=request.data)
@@ -35,4 +39,14 @@ class ArsipDetailApi(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-
+def arsip_model_api(request):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT keterangan, COUNT(*) AS jumlah
+            FROM arsip_arsipmodel 
+            GROUP BY keterangan
+        """)
+        rows = cursor.fetchall()
+        
+    data = [{'keterangan': row[0], 'jumlah': row[1]} for row in rows]
+    return JsonResponse(data, safe=False)

@@ -53,6 +53,7 @@
             </div>
           </div>
           {{form|crispy }}
+
           <!-- <div class="row g-3">
             <div class="col-md-4">{{form.no_arsip|as_crispy_field}}</div>
             <div class="col-md-4">{{form.jenis_dokumen|as_crispy_field}}</div>
@@ -89,22 +90,10 @@
 <!-- end content  -->
 <!-- java script kode  -->
 <script>
-  // Select all input elements with type "date"
-  var dateInputs = document.querySelectorAll('input[type="date"]');
-
-  // Change the format of each date value
-  dateInputs.forEach(function (input) {
-    // Get the current value of the input
-    var currentValue = input.value;
-
-    // Split the current value by "-"
-    var parts = currentValue.split("-");
-
-    // Rearrange the parts in the new format "yyyy-MM-dd"
-    var newValue = parts[2] + "-" + parts[1] + "-" + parts[0];
-
-    // Set the new value to the input
-    input.value = newValue;
+  $(function () {
+    $(".dateinput").datepicker({
+      format: "dd-mm-yy",
+    });
   });
 </script>
 

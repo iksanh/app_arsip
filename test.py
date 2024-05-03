@@ -1,49 +1,30 @@
-# import re
+import locale
+from datetime import datetime
 
-# # Your input string
-# input_string = "393/SKet-75.100.UP.02.03/III/2024"
-# input_string2 = 'UP.01.03/300-75.300/VIII/2023'
+def convert_date(date_str):
+    # Set the locale to Indonesian
+    locale.setlocale(locale.LC_TIME, 'id_ID.UTF-8')
 
-# # Define the initial regular expression pattern
-# pattern1 = r'75[^a-zA-Z]*([a-zA-Z][^/]*)'
-# pattern2 = r'([a-zA-Z]+(?:\.\d+)*)(?=/\d+-75)'
+    # Define the format of the input date string with Indonesian month names
+    input_format = "%d %B %Y"  # Example: "28 Maret 2024"
 
-# # Search for the pattern in the input string
-# match = re.search(pattern2, input_string2)
+    # Parse the input date string
+    date_object = datetime.strptime(date_str, input_format)
 
-# # If a match is found with the initial pattern, print the result
-# if match:
-#     result = match.group(1)
-#     print(result)
-# else:
-#     # Define the alternate regular expression pattern
-    
+    # Define the desired output format
+    output_format = "%d/%m/%Y"  # Example: "28/04/2024" or "2/01/2024"
 
-#     # Search for the alternate pattern in the input string
-#     match = re.search(pattern1, input_string2)
+    # Format the date object to the desired output format
+    formatted_date = date_object.strftime(output_format)
 
-#     # If a match is found with the alternate pattern, print the result
-#     if match:
-#         result = match.group(1)
-#         print(result)
-#     else:
-#         print("No match found.")
+    return formatted_date
 
+# Example usage
+date1 = "28 Maret 2024"
+date2 = "2 Januari 2024"
 
-import re
+converted_date1 = convert_date(date1)
+converted_date2 = convert_date(date2)
 
-# Your input string
-input_string = "UT.01.03"
-
-# Define the regular expression pattern to match "UP." or any other code
-pattern = r'([A-Z]+)\.'
-
-# Search for the pattern in the input string
-match = re.search(pattern, input_string)
-
-# If a match is found, print the result
-if match:
-    result = match.group(1)
-    print(result)
-else:
-    print("No match found.")
+print(converted_date1)  # Output: "28/04/2024"
+print(converted_date2)  # Output: "02/01/2024"

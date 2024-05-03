@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'arsip',
     'sirkulasi',
     'dokumen',
-    'pangkat_golongan'
+    'pangkat_golongan',
+    'report'
 
 
     

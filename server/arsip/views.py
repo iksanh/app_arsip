@@ -41,15 +41,14 @@ from utils.get_regex import get_kode_dokumen, get_kode_klasifikasi, get_pengelol
 arsipParams = CrudParams('arsip')
 
 #LIST VIEW 
-class ArsipListView(PermissionRequiredMixin, ListView, FormView):
+class ArsipListView(PermissionRequiredMixin, ListView):
   permission_required = 'arsip.view_arsipmodel' 
-  
   model = ArsipModel
   template_name = 'list_arsip.html'
   context_object_name = 'data'
-  klasifikasi = KlasifikasiModel.objects.all()
+  
 
-  extra_context = arsipParams.parameter(arsip=True, list_klasifikasi=klasifikasi)
+  extra_context = arsipParams.parameter(arsip=True)
 
   def get_initial(self):
     initial = super().get_initial()
@@ -69,12 +68,16 @@ class ArsipListView(PermissionRequiredMixin, ListView, FormView):
     
     # return super().get_initial()
 
-  def get_form_class(self) -> type:
-    return ArsipForm
+  # def get_form_class(self) -> type:
+  #   return ArsipForm
   
   
   def get_queryset(self) -> QuerySet[Any]:
     query_set = ArsipModel.objects.all()
+    # Model.objects.values('field1', 'field2')
+    query_set = ArsipModel.objects.values('id', 'no_arsip', 'jenis_dokumen__nama', 'keterangan', 'uraian', 'media__name').order_by('-update_at')
+    # query_set = ArsipModel.objects.only('id')
+    print(query_set)
 
     #handle search paramater
     search_klasifikasi = self.request.GET.get('kode_klasifikasi', '')
@@ -86,9 +89,8 @@ class ArsipListView(PermissionRequiredMixin, ListView, FormView):
     search_keterangan = self.request.GET.get('keterangan', '')
     search_tanggal_dokumen = self.request.GET.get('tanggal_dokumen', '')
     search_jenis_dokumen = self.request.GET.get('jenis_dokumen', '')
-
+    print(search_tanggal_dokumen)
     #handle donwnload report 
-
     action = self.request.GET.get('action', '')
 
 
@@ -201,6 +203,17 @@ class ArsipUpdate(PermissionRequiredMixin,UpdateView):
 
     instance.save()
     return super().form_valid(form)
+
+def detail_view(request, id):
+  context =  {
+    'data_arsip': ArsipModel.objects.get(id=id),
+    'parameter': {
+        'arsip': True
+    }
+    
+  } 
+  
+  return render(request, 'detail_arsip.html', context)
 
 
 @permission_required('arsip.delete_arsipmodel')
@@ -536,7 +549,7 @@ def generate_pdf_report_view(request):
           # print(perihal)      
 
     # return render(request, 'upload.html')
-def upload_csv(request):
+def upload_csv_dinas(request):
     if request.method == 'POST' and request.FILES['csv_file']:
         csv_file = request.FILES['csv_file']
         decoded_file = csv_file.read().decode('utf-8').splitlines()
@@ -571,3 +584,199 @@ def upload_csv(request):
                 continue
             
     return render(request, 'upload.html')
+
+def upload_csv(request):
+    if request.method == 'POST' and request.FILES['csv_file']:
+        csv_file = request.FILES['csv_file']
+        decoded_file = csv_file.read().decode('utf-8').splitlines()
+        csv_reader = csv.DictReader(decoded_file)
+
+        for row in csv_reader:
+            try:
+                nomor_surat_input = row['nomor_surat']
+                jenis_dokumen_input = DokumenModel.objects.get(kode='SD')
+                # kode_klasifikasi_input = KlasifikasiModel.objects.get(kode_klasifikasi=get_kode_klasifikasi(nomor_surat_input))
+                pencipta_input = UnitKerjaModel.objects.get(arsip='UP')
+                pengelola_input = UnitKerjaModel.objects.get(arsip='UP')
+                tanggal_dokumen_input = datetime.strptime(row['tanggal_surat'], "%d/%m/%Y").strftime("%Y-%m-%d")
+                tanggal_terima_input = datetime.strptime(row['tanggal_terima'], "%d/%m/%Y").strftime("%Y-%m-%d")
+                uraian_input = row['uraian']
+                asal_surat_input = row['asal_surat']
+                keterangan_input = 'SURAT MASUK'
+                media_input = MediaModel.objects.get(name=row['media'])
+                created_by_input = User.objects.get(id=1)
+                created_at_input = date.today()
+                updated_by_input = created_by_input
+                updated_at_input = created_at_input
+
+                ArsipModel.objects.create(no_arsip=nomor_surat_input, jenis_dokumen=jenis_dokumen_input,
+                                           pencipta=pencipta_input, 
+                                           pengelola=pengelola_input, tanggal_dokumen=tanggal_dokumen_input, tanggal_terima = tanggal_terima_input,
+                                           asal_surat = asal_surat_input,
+                                           uraian=uraian_input, keterangan=keterangan_input, media=media_input,
+                                           created_at=created_at_input, created_by=created_by_input,
+                                           update_at=updated_at_input, updated_by=updated_by_input)
+            except Exception as e:
+                print(f"Error processing row: {row}")
+                print(f"Error message: {str(e)}")
+                # You can choose to log the error or perform any other desired action
+                continue
+            
+    return render(request, 'upload.html')
+
+
+# def arsip_search(request):
+#   class ArsipFormWithRequest(ArsipForm):
+#         def __new__(cls, *args, **kwargs):
+#             return ArsipForm(*args, **kwargs, request=request)
+  
+#   data = ArsipModel.objects.all()
+#   if request.method == 'GET':
+#      search_klasifikasi = request.GET.get('kode_klasifikasi', '')
+#      search_no_arsip = request.GET.get('no_arsip', '')
+#      search_pencipta = request.GET.get('pencipta', '')
+#      search_pengelola = request.GET.get('pengelola', '')
+#      search_tempat = request.GET.get('tempat', '')
+#      search_lokasi = request.GET.get('lokasi', '')
+#      search_keterangan = request.GET.get('keterangan', '')
+#      search_tanggal_dokumen = request.GET.get('tanggal_dokumen', '')
+#      search_jenis_dokumen = request.GET.get('jenis_dokumen', '')
+
+#      q_objects = Q()
+
+#      if search_jenis_dokumen:
+#         q_objects &= Q(jenis_dokumen=search_jenis_dokumen)
+
+#      if search_klasifikasi:
+#         q_objects &= Q(kode_klasifikasi=search_klasifikasi)
+
+#      if search_pencipta:
+#         q_objects &= Q(pencipta=search_pencipta)
+
+#      if search_no_arsip:
+#         q_objects &= Q(no_arsip__icontains=search_no_arsip)
+
+#      if search_pengelola:
+#         q_objects &= Q(pengelola=search_pengelola)
+
+#      if search_lokasi:
+#         q_objects &= Q(lokasi=search_lokasi)
+
+#      if search_tempat:
+#         q_objects &= Q(tempat=search_tempat)
+
+#      if search_keterangan:
+#         q_objects &= Q(keterangan=search_keterangan)
+
+#      if search_tanggal_dokumen:
+#         q_objects &= Q(tanggal_dokumen=search_tanggal_dokumen)
+
+#      data = data.filter(q_objects)
+#   # Initialize empty initial values dictionary
+#   initial_values = {}
+
+#     # Assuming you want to set initial values based on query parameters
+#   for key in request.GET:
+#         initial_values[key] = request.GET[key]
+#   arsip_form = ArsipForm()
+
+#   # context = arsipParams.parameter(form = arsip_form, data = data) 
+#   context = {
+#     'form': arsip_form,
+#     'data': data
+#   }
+#   return render(request, 'list_arsip_search.html', context)
+
+class ArsipSearchView(PermissionRequiredMixin, ListView, FormView):
+  permission_required = 'arsip.view_arsipmodel' 
+  
+  model = ArsipModel
+  template_name = 'list_arsip_search.html'
+  context_object_name = 'data'
+  klasifikasi = KlasifikasiModel.objects.all()
+
+  extra_context = arsipParams.parameter(arsip=True, list_klasifikasi=klasifikasi)
+
+  def get_initial(self):
+    initial = super().get_initial()
+
+    #isi data awal dari request.get 
+    initial['kode_klasifikasi'] = self.request.GET.get('kode_klasifikasi', '')
+    initial['no_arsip'] = self.request.GET.get('no_arsip', '')
+    initial['pencipta'] = self.request.GET.get('pencipta', '')
+    initial['pengelola'] = self.request.GET.get('pengelola', '')
+    initial['tempat'] = self.request.GET.get('tempat', '')
+    initial['lokasi'] = self.request.GET.get('lokasi', '')
+    initial['keterangan'] = self.request.GET.get('keterangan', '')
+    initial['tanggal_dokumen'] = self.request.GET.get('tanggal_dokumen', '')
+    initial['jenis_dokumen'] = self.request.GET.get('jenis_dokumen', '')
+
+    return initial
+    
+  
+  def get_form_class(self) -> type:
+    return ArsipForm
+    
+  def get_queryset(self) -> QuerySet[Any]:
+    query_set = ArsipModel.objects.none()
+
+    #mengambil input dari parameter
+    search_klasifikasi = self.request.GET.get('kode_klasifikasi', '')
+    search_no_arsip = self.request.GET.get('no_arsip', '')
+    search_pencipta = self.request.GET.get('pencipta', '')
+    search_pengelola = self.request.GET.get('pengelola', '')
+    search_tempat = self.request.GET.get('tempat', '')
+    search_lokasi = self.request.GET.get('lokasi', '')
+    search_keterangan = self.request.GET.get('keterangan', '')
+    search_tanggal_dokumen = self.request.GET.get('tanggal_dokumen', '')
+    search_jenis_dokumen = self.request.GET.get('jenis_dokumen', '')
+
+    # Buat Q Object untuk menggabungkan pencarian
+    q_object = Q()
+
+    # Gunakan Pencarian
+    if search_jenis_dokumen:
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(jenis_dokumen=search_jenis_dokumen)
+
+    if search_klasifikasi: 
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(kode_klasifikasi=search_klasifikasi)
+    
+    if search_pencipta:
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(pencipta=search_pencipta)
+
+
+    if search_no_arsip:
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(no_arsip__icontains=search_no_arsip)
+
+    if search_pengelola: 
+      query_set = ArsipModel.objects.all()
+      q_object  &= Q(pengelola=search_pengelola)
+    
+    if search_lokasi:
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(lokasi=search_lokasi)
+
+    if search_tempat:
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(tempat=search_tempat)
+      
+    if search_keterangan:
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(keterangan=search_keterangan)
+    
+
+    if search_tanggal_dokumen:
+
+      # query_set = ArsipModel.objects.all()
+      # q_object &= Q(tanggal_dokumen=datetime.strptime(search_tanggal_dokumen, "%Y-%m-%d"))
+      query_set = ArsipModel.objects.all()
+      q_object &= Q(tanggal_dokumen=datetime.strptime(search_tanggal_dokumen, "%m/%d/%Y"))
+
+    query_set = query_set.filter(q_object)
+    
+    return query_set
+  

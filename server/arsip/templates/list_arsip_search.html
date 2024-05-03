@@ -1,0 +1,226 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content%}
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+  <div class="col-auto">
+    <h1 class="app-page-title mb-0">{{module}}</h1>
+  </div>
+  <div class="col-auto">
+    <div class="page-utilities">
+      <div
+        class="row g-2 justify-content-start justify-content-md-end align-items-center"
+      >
+        <div class="col-auto">
+          <a class="btn app-btn-secondary" href="{% url 'list-arsip' %}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-card-list"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"
+              />
+              <path
+                d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
+              />
+            </svg>
+
+            Daftar Arsip
+          </a>
+          <a class="btn app-btn-primary" href="{% url 'create-arsip' %}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-plus"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            Tambah data
+          </a>
+        </div>
+      </div>
+      <!--//row-->
+    </div>
+    <!--//table-utilities-->
+  </div>
+  <!--//col-auto-->
+</div>
+<!--<p class="fw-bold fs-4 my-3 fw-light fw-bolder">SIMPANAN</p>-->
+<!-- <div class="collapse mb-4" id="collapseExamplea"> -->
+<div class="mb-4">
+  <div class="app-card card-body p-4">
+    <div class="container">
+      <form
+        method="get"
+        action="{% url  'search-arsip' %}"
+        novalidate
+        id="form_arsip"
+      >
+        <!-- {% csrf_token %} -->
+        <div class="row gy-2">
+          <div class="col-md-4">{{form.no_arsip|as_crispy_field|safe}}</div>
+          <div class="col-md-4">{{form.tanggal_dokumen|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.pencipta|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.pengelola|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.kode_klasifikasi|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.lokasi|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.tempat|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.keterangan|as_crispy_field}}</div>
+          <div class="col-md-4">{{form.jenis_dokumen|as_crispy_field}}</div>
+
+          <div class="d-grid gap-2 d-md-block mt-3">
+            <button
+              class="btn app-btn-primary btn-sm col-md-2"
+              name="action"
+              value="search"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-search"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                />
+              </svg>
+              Cari data
+            </button>
+
+            <a
+              class="btn app-btn-secondary btn-sm col-md-2"
+              href="{% url 'list-arsip' %}"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-arrow-repeat"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"
+                />
+              </svg>
+              Batal
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="app-card app-card-orders-table shadow-sm mb-5">
+  <div class="app-card-body">
+    {% if data %}
+
+    <div class="table-responsive p-4">
+      <table class="table" id="table-arsip">
+        <thead>
+          <tr>
+            <th scope="cell">#</th>
+            <th scope="cell">NO ARSIP</th>
+            <th scope="cell">DOKUMEN</th>
+            <th scope="cell">KETERANGAN</th>
+            <th scope="cell">URAIAN/PERIHAL</th>
+            <th scope="cell">MEDIA</th>
+            <th scope="cell">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in data %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{d.no_arsip}}</td>
+            <td>{{d.jenis_dokumen.nama}}</td>
+            <td>{{d.keterangan}}</td>
+            <td>{{d.uraian}}</td>
+            <td>{{d.media.name}}</td>
+
+            <td class="d-flex gap-3">
+              {% if file_url %}
+              <a href="{{d.file.url}}" target="_blank">Lihat File</a>
+              {% endif %}
+              <a href="{% url 'detail-arsip' d.id %}"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"
+                  />
+                  <path
+                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"
+                  /></svg
+              ></a>
+              <a href="{% url 'edit-arsip' d.id %}" class="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pencil"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                  />
+                </svg>
+              </a>
+              <a href="{% url 'delete-arsip' d.id %}" class="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#ec776c"
+                  class="bi bi-trash"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"
+                  />
+                  <path
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"
+                  />
+                </svg>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+    <div class="p-5">DATA ARSIP KOSONG</div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Place this div where you want the PDF to be displayed -->
+
+<script>
+  const table_arsip = new DataTable("#table-arsip");
+  $(document).ready(function () {
+    $("#id_tanggal_dokumen").datepicker();
+  });
+</script>
+
+{% endblock content%}

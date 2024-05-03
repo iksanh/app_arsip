@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+      }
+      .kop {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        column-gap: 20px;
+        justify-content: center;
+        border-bottom-style: solid;
+        border-bottom-width: thin;
+      }
+      .kop__text {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .kementerian {
+        font-size: 17px;
+        font-weight: bold;
+        font-family: "Bookman Old Style", serif; /* Bookman Old Style font */
+      }
+      .kanwil {
+        font-size: 15px;
+        font-weight: bold;
+        font-family: "Bookman Old Style", serif; /* Bookman Old Style font */
+      }
+      .alamat {
+        font-size: 11px;
+        font-weight: bold;
+        font-family: "Arial Narrow", sans-serif; /* Arial Narrow font */
+      }
+      .table {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      table,
+      th,
+      td,
+      tr {
+        border: 1px solid;
+        text-align: center;
+      }
+      td {
+        height: 48px;
+        vertical-align: center;
+      }
+      th {
+        height: 96px;
+        vertical-align: center;
+      }
+      table {
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="kop">
+      <div class="kop__logo">
+        <img
+          class="logo-icon me-2"
+          src="{%static 'assets/images/logo.png' %}"
+          alt="logo"
+          style="width: 80px; height: 80px"
+        />
+      </div>
+      <div class="kop__text">
+        <div class="kementerian">
+          <span>
+            <p>KEMENTERIAN AGRARIA DAN TATA RUANG</p>
+            <p>BADAN PERTANAHAN NASIONAL</p>
+          </span>
+        </div>
+        <div class="kanwil">
+          <p>KANTOR WILAYAH BADAN PERTANAHAN NASIONAL</p>
+          <p>PROVINSI GORONTALO</p>
+        </div>
+        <div class="alamat">
+          <p>
+            Jalan Brigjen Piola Isa No. 212 Telp (0435) 828665 Fax (0435) 830013
+            Gorontalo 96123
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <table class="table" id="table-pegawai">
+      <thead>
+        <tr>
+          <th scope="cell">NO</th>
+          <th scope="cell">NO ARSIP</th>
+          <th scope="cell">TANGGAL DOKUMEN</th>
+          <th scope="cell">DOKUMEN</th>
+          <th scope="cell">KETERANGAN</th>
+          <th scope="cell">URAIAN/PERIHAL</th>
+          <th scope="cell">DIBUAT OLEH</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in data %}
+        <tr>
+          <td scope="row">{{forloop.counter}}</td>
+          <td>{{d.no_arsip}}</td>
+          <td>{{d.tanggal_dokumen}}</td>
+          <td>{{d.jenis_dokumen.nama}}</td>
+          <td>{{d.keterangan}}</td>
+          <td>{{d.uraian}}</td>
+          <td>{{d.pencipta.name}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+  <script>
+    window.print();
+  </script>
+</html>

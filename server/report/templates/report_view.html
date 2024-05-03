@@ -1,0 +1,169 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+<!-- begin blok  -->
+{% block content%}
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+  <div class="col-auto">
+    <h1 class="app-page-title mb-0">{{modul}}</h1>
+  </div>
+  <div class="col-auto">
+    <div class="page-utilities">
+      <form action="{% url 'detail_report' %}" method="post" validate>
+        {% csrf_token %}
+        <div
+          class="row g-2 justify-content-start justify-content-md-end align-items-center"
+        >
+          <div class="col-auto">
+            
+            
+            <select class="form-select w-auto" name="dokumen" id="dokumen">
+              <option value="" {% if not dokumen_value %}selected{% endif %}>Pilih Dokumen</option>
+              {% for d in dokumen %}
+                  <option value="{{ d.id }}" {% if dokumen_value and dokumen_value == d.id %} selected {% endif %}>{{ d.nama }} ({{ d.kode }})</option>
+              {% endfor %}
+          </select>
+          </div>
+          <div class="col-auto">
+            
+            <select
+              class="form-select w-auto"
+              name="keterangan"
+              id="keterangan"
+            >
+              <option selected="">Pilih Keterangan</option>
+              {% for k in keterangan %}
+              <option value="{{k}}">{{k}}</option>
+
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-auto">
+            
+            <input
+              type="text"
+              name="periode_laporan"
+              id="periode_laporan"
+              value="01/01/2024 - 12/01/2024"
+              class="form-select w-auto"
+            />
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn app-btn-secondary" id="btn_cari">
+              Cetak
+            </button>
+          </div>
+          
+        </div>
+      </form>
+
+      <!--//row-->
+    </div>
+    <!--//table-utilities-->
+  </div>
+  <!--//col-auto-->
+</div>
+<div class="mb-4 mt-4">
+  <div class="app-card card-body p-4">
+    <div class="container">
+      <div class="table-responsive">
+        <table class="table" id="table-pegawai">
+          <thead>
+            <tr>
+              <th scope="cell">NO</th>
+              <th scope="cell">NO ARSIP</th>
+              <th scope="cell">TANGGAL DOKUMEN</th>
+              <th scope="cell">DOKUMEN</th>
+              <th scope="cell">KETERANGAN</th>
+              <th scope="cell">URAIAN/PERIHAL</th>
+              <th scope="cell">DIBUAT OLEH</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in data %}
+            <tr>
+              <td scope="row">{{forloop.counter}}</td>
+              <td>{{d.no_arsip}}</td>
+              <td>{{d.tanggal_dokumen}}</td>
+              <td>{{d.jenis_dokumen.nama}}</td>
+              <td>{{d.keterangan}}</td>
+              <td>{{d.uraian}}</td>
+              <td>{{d.pencipta.name}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let btn_cari = document.querySelector("#btn_cari");
+
+    btn_cari.addEventListener("click", function () {
+      // Capture the selected values of form fields when the button is clicked
+      let dokumen = document.getElementById("dokumen").value;
+      let keterangan = document.getElementById("keterangan").value;
+      let periode = document.getElementById("periode_laporan").value;
+
+      let data = {
+        dokumen: dokumen,
+        keterangan: keterangan,
+        periode: periode,
+      };
+
+      console.log(data);
+      send_data(data);
+
+      let newTab = window.open("about:blank", "_blank");
+
+    
+
+    // Change the URL of the new tab
+    newTab.location.href = "print/?dokumen="+dokumen+"&keterangan="+keterangan+"&periode_laporan="+periode;
+
+
+    });
+
+    function send_data(data) {
+      fetch("http://127.0.0.1:8000/report/detail/get/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Add any additional headers if needed
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Handle the response from the Django backend if needed
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("There was a problem with the fetch operation:", error);
+        });
+    }
+  });
+  $(function () {
+    $('input[name="periode_laporan"]').daterangepicker(
+      {
+        opens: "left",
+      },
+      function (start, end, label) {
+        console.log(
+          "A new date selection was made: " +
+            start.format("YYYY-MM-DD") +
+            " to " +
+            end.format("YYYY-MM-DD")
+        );
+      }
+    );
+  });
+</script>
+<!-- end block -->
+{% endblock content%}
